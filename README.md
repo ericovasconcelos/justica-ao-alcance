@@ -2,7 +2,7 @@
 
 ## Sobre o Projeto
 
-**Justiça ao Alcance** é um projeto de extensão universitária desenvolvido por estudantes do curso de Direito da UDF (Centro Universitário do Distrito Federal) como parte da disciplina Itinerário Extensionista III.
+**Justiça ao Alcance** é um projeto de extensão universitária desenvolvido por estudantes do curso de Direito da UDF (Centro Universitário do Distrito Federal) como parte da disciplina Itinerário Extensionista IV.
 
 O objetivo é fornecer informações acessíveis sobre violência doméstica e familiar contra a mulher, com foco em recursos disponíveis no Distrito Federal.
 
@@ -41,7 +41,6 @@ O site contém informações sobre:
 - Cecília Silva
 - Cassandra Gama
 - Gabriela Miranda
-- Pedro Henrique
 
 ## 📅 Cronologia do Projeto
 
@@ -55,24 +54,12 @@ Desenvolvimento de material informativo para distribuição no evento da pessoa 
 ## 📱 Como Usar
 
 ### Acesso Online
-Acesse o site através do link: [https://seu-usuario.github.io/justica-ao-alcance](https://seu-usuario.github.io/justica-ao-alcance)
+Acesse o site através do link: [https://justicaaoalcance.com.br)
 
 ### QR Code
 Um QR Code será gerado para facilitar o acesso via dispositivos móveis, especialmente para distribuição em material impresso.
 
-## 🚀 Desenvolvimento Local
 
-Para executar o projeto localmente:
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/seu-usuario/justica-ao-alcance.git
-```
-
-2. Navegue até a pasta do projeto:
-```bash
-cd justica-ao-alcance
-```
 
 3. Abra o arquivo `index.html` em seu navegador
 
