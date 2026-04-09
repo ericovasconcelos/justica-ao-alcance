@@ -253,5 +253,20 @@
     </footer>
 
     <script src="script.js"></script>
+    <div id="quick-exit" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <button onclick="exitSite()" style="background-color: #d9534f; color: white; border: none; padding: 15px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        SAIR RÁPIDO (ESC)
+    </button>
+</div>
+
+<script>
+function exitSite() {
+    window.location.replace("https://www.google.com.br");
+}
+// Atalho pela tecla ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") exitSite();
+});
+</script>
 </body>
 </html>
