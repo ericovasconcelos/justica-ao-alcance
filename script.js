@@ -1,174 +1,71 @@
-// Smooth scroll para links internos
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Animação de entrada para cards
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+const scenarios = {
+    trabalho: {
+        title: 'Violência de gênero no trabalho',
+        body: 'Se a violência contra a mulher for baseada no gênero, medidas protetivas de urgência podem ser aplicadas mesmo quando o fato ocorre em ambiente profissional, fora de relação doméstica ou familiar.',
+        law: 'Base: Tema 1.412 do STF.'
+    },
+    politica: {
+        title: 'Violência política contra a mulher',
+        body: 'O STF reconheceu expressamente que a proteção contra violência de gênero também compreende a violência política contra a mulher. Nesses casos, a competência para o crime eleitoral permanece com a Justiça Eleitoral, sem impedir a análise urgente de medidas protetivas.',
+        law: 'Base: Tema 1.412 do STF.'
+    },
+    vicaria: {
+        title: 'Usar filho ou familiar para atingir a mulher',
+        body: 'Em 2026, a violência vicária passou a ser reconhecida expressamente pela Lei Maria da Penha. Ela ocorre quando alguém atinge pessoa próxima da mulher para causar sofrimento, exercer controle ou puni-la. A legislação também criou o crime de vicaricídio.',
+        law: 'Base: Lei 15.384/2026.'
+    },
+    monitoramento: {
+        title: 'Agressor viola limite de aproximação',
+        body: 'A monitoração eletrônica do agressor passou a ser prevista como medida protetiva autônoma. A legislação também reforçou as consequências do descumprimento, inclusive quando há violação da área de exclusão monitorada ou adulteração do equipamento.',
+        law: 'Base: Lei 15.383/2026.'
+    },
+    prazo: {
+        title: 'A vítima demorou para representar',
+        body: 'Nos crimes praticados no âmbito da violência doméstica e familiar contra a mulher que dependam de queixa ou representação, o prazo decadencial passou a ser de 12 meses, contado nos termos previstos em lei.',
+        law: 'Base: Lei 15.438/2026.'
+    },
+    'medida-civel': {
+        title: 'Medida protetiva com obrigação cível',
+        body: 'Em 2026, medidas protetivas de natureza cível passaram a constituir título executivo judicial de pleno direito e a dispensar a propositura de uma ação principal. Isso reforça a autonomia e a efetividade da proteção concedida.',
+        law: 'Base: Lei 15.412/2026.'
+    }
 };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '0';
-            entry.target.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }, 100);
-            
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
+const scenarioButtons = document.querySelectorAll('.scenario-button');
+const scenarioTitle = document.getElementById('scenario-title');
+const scenarioBody = document.getElementById('scenario-body');
+const scenarioLaw = document.getElementById('scenario-law');
 
-// Observar todos os cards e seções
-document.addEventListener('DOMContentLoaded', () => {
-    const elementsToAnimate = document.querySelectorAll('.info-section, .contact-card, .type-card, .location-card');
-    elementsToAnimate.forEach(el => observer.observe(el));
+scenarioButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const scenario = scenarios[button.dataset.scenario];
+        if (!scenario) return;
+
+        scenarioButtons.forEach((item) => {
+            item.classList.remove('is-active');
+            item.setAttribute('aria-pressed', 'false');
+        });
+
+        button.classList.add('is-active');
+        button.setAttribute('aria-pressed', 'true');
+        scenarioTitle.textContent = scenario.title;
+        scenarioBody.textContent = scenario.body;
+        scenarioLaw.textContent = scenario.law;
+    });
 });
 
-// Botão de copiar número de telefone (funcionalidade adicional)
-function copyToClipboard(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
-            showNotification('Número copiado!');
-        }).catch(err => {
-            console.error('Erro ao copiar:', err);
-        });
-    }
+const quickExit = document.getElementById('quick-exit');
+
+function exitSite() {
+    window.location.replace('https://www.google.com.br');
 }
 
-// Mostrar notificação temporária
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: #4CAF50;
-        color: white;
-        padding: 15px 25px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        z-index: 1000;
-        animation: slideIn 0.3s ease;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
+if (quickExit) {
+    quickExit.addEventListener('click', exitSite);
 }
 
-// Adicionar animações CSS via JavaScript
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Adicionar funcionalidade de clique nos números de emergência
-document.addEventListener('DOMContentLoaded', () => {
-    const emergencyNumbers = document.querySelectorAll('.contact-card.urgent h3');
-    emergencyNumbers.forEach(numberEl => {
-        numberEl.style.cursor = 'pointer';
-        numberEl.title = 'Clique para copiar';
-        
-        numberEl.addEventListener('click', () => {
-            const number = numberEl.textContent.trim();
-            copyToClipboard(number);
-        });
-    });
-});
-
-// Detecção de scroll para header fixo (opcional)
-let lastScroll = 0;
-const header = document.querySelector('header');
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > 100) {
-        header.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-    } else {
-        header.style.boxShadow = '0 2px 8px rgba(139, 71, 137, 0.1)';
-    }
-    
-    lastScroll = currentScroll;
-});
-
-// Adicionar indicador de carregamento
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.5s ease';
-        document.body.style.opacity = '1';
-    }, 100);
-});
-
-// Analytics de cliques em links externos (para futuras melhorias)
-document.querySelectorAll('a[target="_blank"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-        const linkText = e.target.textContent || e.target.innerText;
-        console.log('Link externo clicado:', linkText);
-        // Aqui você pode adicionar Google Analytics ou outra ferramenta de tracking
-    });
-});
-
-// Adicionar classe de acessibilidade para foco com teclado
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-        document.body.classList.add('keyboard-navigation');
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        exitSite();
     }
 });
-
-document.addEventListener('mousedown', () => {
-    document.body.classList.remove('keyboard-navigation');
-});
-
-// Estilo para navegação por teclado
-const keyboardStyle = document.createElement('style');
-keyboardStyle.textContent = `
-    body.keyboard-navigation *:focus {
-        outline: 3px solid #8B4789;
-        outline-offset: 2px;
-    }
-`;
-document.head.appendChild(keyboardStyle);
